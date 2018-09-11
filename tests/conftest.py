@@ -302,7 +302,7 @@ def parallel(item):
         call = ["mpiexec", "-n", "1", "python", "-m", "pytest", "--runxfail", "-s",
                 "-q", testname]
         call.extend([":", "-n", "%d" % (i - 1), "python", "-m", "pytest",
-                     "--runxfail", "--tb=no", "-q", testname])
+                     "--runxfail", "--tb=no", "-s", "-q", testname])
         check_call(call)
 
 

@@ -630,6 +630,8 @@ class TestOperatorAdvanced(object):
         # O --- O --- O --- O
 
         op = Operator(sf.inject(field=f, expr=sf + 1))
+        print (op._prepare_arguments())
+        print (op)
         op.apply()
 
         assert np.all(f.data == 1.25)
