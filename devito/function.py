@@ -19,7 +19,7 @@ from devito.finite_difference import (centered, cross_derivative,
 from devito.logger import debug, warning
 from devito.parameters import configuration
 from devito.symbolics import indexify, retrieve_indexed
-from devito.types import (AbstractCachedFunction, AbstractCachedSymbol, Symbol,
+from devito.types import (AbstractCachedFunction, AbstractCachedSymbol, Symbol, Scalar,
                           OWNED, HALO, LEFT, RIGHT)
 from devito.tools import (EnrichedTuple, Tag, ReducerMap, ArgProvider, as_mapper,
                           as_tuple, flatten, is_integer, prod, powerset)
@@ -1535,19 +1535,19 @@ class SparseFunction(AbstractSparseFunction):
         subs, idx_subs, eqns = self._interpolation_indices(variables, offset)
 
         # Substitute coordinate base symbols into the coefficients
-        args = [expr.subs(vsub) * b.subs(subs)
+        args = [expr.subs(vsub) * b.subs(subs).subs(vsub)
                 for b, vsub in zip(self._coefficients, idx_subs)]
 
         # Accumulate point-wise contributions into a temporary
-        rhs = Symbol(name='sum')
-        summands = [Eq(rhs, 0)] + [Inc(rhs, rhs + i) for i in args]
+        rhs = Scalar(name='sum', dtype=self.dtype)
+        summands = [Eq(rhs, 0.)] + [Inc(rhs, rhs + i) for i in args]
 
         # Write/Incr `self`
         lhs = self.subs(self_subs)
         rhs = rhs + lhs if increment else rhs
         last = [Inc(lhs, rhs)] if increment else [Eq(lhs, rhs)]
 
-        return eqns + last
+        return eqns + summands + last
 
     def inject(self, field, expr, offset=0):
         """Symbol for injection of an expression onto a grid
