@@ -19,11 +19,12 @@ ADD docker/run-jupyter.sh /jupyter
 ADD docker/run-tests.sh /tests
 ADD docker/run-print-defaults.sh /print-defaults
 ADD docker/entrypoint.sh /docker-entrypoint.sh
+ADD docker/run-trial.sh /trial
+ADD docker/pod_config_test.yaml /pod_config_test.yaml
+ADD docker/trial.py /trial.py
 
 RUN chmod +x \
-    /print-defaults \
-    /jupyter \
-    /tests \
+    /trial \
     /docker-entrypoint.sh
 
 WORKDIR /app
@@ -33,4 +34,4 @@ ENV DEVITO_OPENMP="0"
 
 EXPOSE 8888
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["/jupyter"]
+CMD ["/trial"]

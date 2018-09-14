@@ -19,3 +19,21 @@ services:
 
     ports:
       - 8888:8888
+
+  devito-scheduler:
+
+    build:
+      context: .
+      dockerfile: docker/DockerfileScheduler
+
+    environment:
+      DEVITO_ARCH: gcc-4.9
+      DEVITO_OPENMP: 0
+
+    volumes:
+      - ./devito:/app/devito
+      - ./tests:/app/tests
+      - ./examples:/app/examples
+
+    ports:
+      - 8888:8888

@@ -21,3 +21,4 @@ frozendict
 anytree>=2.4.3
 git+https://github.com/opesci/pyrevolve
 distributed>=1.21.8
+dask
