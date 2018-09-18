@@ -4,9 +4,13 @@ from operator import add
 
 
 try:
+    print("1")
     cluster = KubeCluster.from_yaml('/pod_config_test.yaml')
-    cluster.adapt(minimum=1, maximum=2)
+    print("2")
     print(cluster)
+    print("3")
+    cluster.scale_up(1)
+    print("HERE")
     client = Client(cluster)
     print(client)
     z = client.get({'x': (add, 1, 2)}, 'x')
@@ -22,10 +26,6 @@ try:
 
 except(KeyboardInterrupt, SystemExit):
     print("caught********************")
-
-except:
-    print("DIFFERENT------------------")
-    rollback()
 
 finally:
     client.close()

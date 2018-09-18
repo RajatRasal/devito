@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-PYTHONPATH=/app /venv/bin/python /trail.py
+PYTHONPATH=/app /venv/bin/python /trial.py
