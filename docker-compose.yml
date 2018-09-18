@@ -20,7 +20,7 @@ services:
     ports:
       - 8888:8888
 
-  devito-scheduler:
+  scheduler:
 
     build:
       context: .

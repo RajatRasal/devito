@@ -26,6 +26,10 @@ spec:
       containers:
         - name: scheduler
           imagePullPolicy: IfNotPresent
-          image: devito_devito-scheduler
+          image: devito_scheduler
           ports:
           - containerPort: 8888
+          resources:
+            requests:
+              memory: 2G
+              cpu: "1"

@@ -10,6 +10,7 @@ try:
     print(cluster)
     print("3")
     cluster.scale_up(1)
+    print(cluster)
     print("HERE")
     client = Client(cluster)
     print(client)
