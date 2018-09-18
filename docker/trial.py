@@ -1,32 +1,21 @@
+from operator import add
 from dask_kubernetes import KubeCluster
 from dask.distributed import Client
-from operator import add
+from kubernetes.client.rest import ApiException
 
 
 try:
-    print("1")
     cluster = KubeCluster.from_yaml('/pod_config_test.yaml')
-    print("2")
-    print(cluster)
-    print("3")
     cluster.scale_up(1)
-    print(cluster)
-    print("HERE")
     client = Client(cluster)
-    print(client)
-    z = client.get({'x': (add, 1, 2)}, 'x')
-    print("HERE-----------------------------", z)
-    """
-    x = client.submit(inc, 10)
-    print(x)
-    print(4)
-    z = client.gather(x)
-    print(5)
-    """
-    print(z)
+    answer = client.get({'x': (add, 1, 2)}, 'x')
+    print("the answer is:", answer)
 
 except(KeyboardInterrupt, SystemExit):
-    print("caught********************")
+    pass
+
+except ApiException:
+    print("Caught API Exception")
 
 finally:
     client.close()
